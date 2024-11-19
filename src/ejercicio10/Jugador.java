@@ -12,6 +12,14 @@ public class Jugador {
         tiradas = new String[3];
     }
 
+    public void pagarTirada(){
+        cartera = cartera - 0.3;
+    }
+
+    public void sumarPremio(double cifra) {
+        cartera = cartera + cifra;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -26,5 +34,13 @@ public class Jugador {
 
     public void setCartera(double cartera) {
         this.cartera = cartera;
+    }
+
+    public String[] getTiradas() {
+        return tiradas;
+    }
+
+    public void setTiradas(String[] tiradas) {
+        this.tiradas = tiradas;
     }
 }

@@ -5,42 +5,96 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Jugador> listaJugadores = new ArrayList<>();
+
+        /*
+        * Preguntar nombre y edad a usaurio y guardar en un arrayList.
+        * Meter simulacion de tiradas en un método.
+        */
+
+        Jugador jugador1 = new Jugador("Juan", 19);
         String[] valoresTirada = {"ESCUDO", "YELMO", "CASTILLO", "ESPADA"};
+        String[] tiradasJugador = jugador1.getTiradas();
+        int contadorCastillo = 0;
         int contador = 0;
 
-        listaJugadores.add(new Jugador("Juan", 18));
-        listaJugadores.add(new Jugador("Kike", 17));
+        jugador1.pagarTirada();
+        System.out.println(jugador1.getCartera());
 
-        listaJugadores.forEach((jugador) -> {
-            if (jugador.getEdad() < 18 || jugador.getCartera() == 0){
-
-                System.out.println("No puedes jugar");
+        Thread hilo1 = new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
+            tiradasJugador[0] = valoresTirada[(int) (Math.random() * valoresTirada.length)];
+            System.out.println("PRIMERA TIRADA: " + tiradasJugador[0]);
+        });
+        Thread hilo2 = new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            tiradasJugador[1] = valoresTirada[(int) (Math.random() * valoresTirada.length)];
+            System.out.println("SEGUNDA TIRADA: " + tiradasJugador[1]);
+        });
+        Thread hilo3 = new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            tiradasJugador[2] = valoresTirada[(int) (Math.random() * valoresTirada.length)];
+            System.out.println("TERCERA TIRADA: " + tiradasJugador[2]);
         });
 
+        hilo1.start();
 
-        for (String str : valoresTirada) {
-            if (str.equals("ESCUDO")){
-                contador++;
-            }
-
-            if (contador == 3) {
-                listaJugadores.get(0).setCartera(listaJugadores.get(0).getCartera() + 5);
-            } else if (contador == 2) {
-                listaJugadores.get(0).setCartera(listaJugadores.get(0).getCartera() + 1);
-            }
-
-            
+        try {
+            hilo1.join();
+        } catch (InterruptedException e){
+            e.printStackTrace();
         }
 
-        Thread hilo1 = new Thread(() -> System.out.println(valoresTirada[(int) (Math.random() * valoresTirada.length)]));
-        Thread hilo2 = new Thread(() -> System.out.println(valoresTirada[(int) (Math.random() * valoresTirada.length)]));
-        Thread hilo3 = new Thread(() -> System.out.println(valoresTirada[(int) (Math.random() * valoresTirada.length)]));
-
-        hilo1.start();
         hilo2.start();
+
+        try {
+            hilo2.join();
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
         hilo3.start();
 
+        try {
+            hilo3.join();
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
+        String primeraTirada = tiradasJugador[0];
+
+        for (String tirada : tiradasJugador) {
+            if ((tirada.equals("CASTILLO"))){
+                contadorCastillo++;
+            } else if (tirada.equals(primeraTirada)) {
+                contador++;
+            }
+        }
+
+        if (contadorCastillo == 3) {
+            jugador1.sumarPremio(5);
+        } else if(contadorCastillo == 2) {
+            jugador1.sumarPremio(0.5);
+        }
+
+        if (contador == 3) {
+            jugador1.sumarPremio(1);
+        }
+
+        System.out.println(jugador1.getCartera());
     }
 }
