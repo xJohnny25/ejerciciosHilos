@@ -35,11 +35,11 @@ public class Main {
         try {
             t3.join();
         } catch (InterruptedException e) {
+            w = c + 1; //3
             e.printStackTrace();
         }
 
         Thread t4 = new Thread(() -> {
-            w = c + 1; //3
             System.out.println(w);
         });
 
