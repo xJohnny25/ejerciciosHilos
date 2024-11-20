@@ -52,24 +52,26 @@ public class Main {
         });
 
         hilo1.start();
-
-        try {
-            hilo1.join();
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        }
+//
+//        try {
+//            hilo1.join();
+//        } catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
 
         hilo2.start();
 
-        try {
-            hilo2.join();
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        }
+//        try {
+//            hilo2.join();
+//        } catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
 
         hilo3.start();
 
         try {
+            hilo1.join();
+            hilo2.join();
             hilo3.join();
         } catch (InterruptedException e){
             e.printStackTrace();
