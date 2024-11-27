@@ -12,8 +12,8 @@ public class Jugador {
         tiradas = new String[3];
     }
 
-    public void pagarTirada(){
-        cartera = cartera - 0.3;
+    public void pagarTirada(int precioTirada){
+        cartera = cartera - precioTirada;
     }
 
     public void sumarPremio(double cifra) {
